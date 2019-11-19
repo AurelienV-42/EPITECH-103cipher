@@ -1,0 +1,82 @@
+#!/usr/bin/python3
+
+from math import *
+import sys
+import argparse
+from Classmatrix import *
+
+parser = argparse.ArgumentParser(description = 'This is my 103cipher')
+parser.add_argument("Message", type = list, help = "Error type")
+parser.add_argument("Key", type = str, help="Error type")
+parser.add_argument("Flag", type = int, choices = (0, 1), help="Error only 0 or 1")
+
+############## ERROR MANAGEMENT ###############
+try:
+     args = parser.parse_args()
+except:
+     print ("Error when parsing arguments")
+     sys.exit(84)
+
+###############################################
+
+############## FUNCTION TO PRINT ###############
+
+def print_tab(Matrix):
+     i = 0
+     n = 0
+     while (i != len(Matrix)):
+          while (n != len(Matrix[0])):
+               if (n == len(Matrix[0]) - 1):
+                   print (Matrix[i][n], end='')
+               else:
+                   print (Matrix[i][n], end='\t')
+               n += 1
+          i += 1
+          if (i == len(Matrix) and n == len(Matrix[0])):
+               return
+          if (n == len(Matrix[0])):
+               print ()
+          n = 0
+     return
+
+def print_space(Matrix):
+     i = 0
+     n = 0
+     while (i != len(Matrix)):
+          while (n != len(Matrix[0])):
+               if (n == len(Matrix[0]) - 1 and i == len(Matrix) - 1):
+                    print (Matrix[i][n])
+                    return
+               else:
+                    print (Matrix[i][n], end=' ')
+               n += 1
+          i += 1
+          n = 0
+     return
+
+###############################################
+
+if (args.Flag == 0):
+     highint = ceil(sqrt(len(args.Key)))
+     LinesM = ceil(len(args.Message) / highint)
+     Mkey = matrix.CreateMatrix(highint, highint, args.Key)
+     Mmessage = matrix.CreateMatrix(highint, LinesM, args.Message)
+
+     print ("Key matrix :")
+     print_tab(Mkey)
+     print ("\n\nEncrypted message :")
+     print_space(matrix.matrix_multiply(Mmessage, Mkey))
+
+if (args.Flag == 1):
+#     if (type(args.Message[0]) == list):
+ #       sys.exit(84)
+     highint = ceil(sqrt(len(args.Key)))
+     LinesM = ceil(len(args.Message) / highint)
+     Mkey = matrix.CreateMatrix(highint, highint, args.Key)
+     Mmessage = matrix.CreateMatrix(highint, LinesM, args.Message)
+
+     print (Mmessage)
+     print ("Key matrix :")
+     print (Mkey)
+     print ("\n\nEncrypted message :")
+     matrix.matrix_inversed(Mkey)
